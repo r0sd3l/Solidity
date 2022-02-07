@@ -5,9 +5,10 @@ contract Faucet {
    // create array of addresses to store donators
    address[] public donators;
 
+   // allows the contract to receive ether
    receive() external payable {}
 
-   // this function allows funds to be added to the smart contract
+   // this function allows funds to be sent to the smart contract
    function addFunds() external payable {
       // add the address of donator to array
       donators.push(msg.sender);
@@ -21,7 +22,6 @@ contract Faucet {
    function getDonatorAtIndex(uint8 index) external view returns (address) {
          address[] memory _donators = getAllDonators();
          return _donators[index];
-   }
-   
+   }  
 }
 
