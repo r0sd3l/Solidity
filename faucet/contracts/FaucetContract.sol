@@ -3,7 +3,7 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract Faucet {
    // create array of addresses to store donators
-   address[] public donators;
+   address[] private donators;
 
    // allows the contract to receive ether
    receive() external payable {}
