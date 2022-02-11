@@ -1,13 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0; 
 
-contract Faucet {
+import "./Owned.sol";
 
+contract Faucet is Owned {
    uint public numOfDonators;
    // create mapping to store addresses of donators
    // key => value
    mapping(address => bool) private donators;
    mapping(uint => address) private lutDonators;
+
+   // this modifier limits amount that is able to be withdrawn every tx (.1 eth)
+   modifier limitWithdraw(uint withdrawAmount) {
+      require(
+         withdrawAmount <= 100000000000000000,
+         "Cannot withdraw more than .1 ether"
+      );
+      _;
+   }
 
    // allows the contract to receive ether
    receive() external payable {}
@@ -21,6 +31,11 @@ contract Faucet {
          donators[donator] = true; 
          lutDonators[index] = donator;
       }
+   }
+
+   // this function withdraws from the smart contract with a limit of .1 eth per transaction
+   function withdraw(uint withdrawAmount) external limitWithdraw(withdrawAmount) {
+         payable(msg.sender).transfer(withdrawAmount);
    }
 
    // this function returns an array of all donator's addresses
