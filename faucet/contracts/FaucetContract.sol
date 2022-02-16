@@ -2,8 +2,10 @@
 pragma solidity >=0.4.22 <0.9.0; 
 
 import "./Owned.sol";
+import "./Logger.sol";
+import "./IFaucet.sol";
 
-contract Faucet is Owned {
+contract Faucet is Owned, Logger, IFaucet {
    uint public numOfDonators;
    // create mapping to store addresses of donators
    // key => value
@@ -22,8 +24,12 @@ contract Faucet is Owned {
    // allows the contract to receive ether
    receive() external payable {}
 
+   function emitLog() public override pure returns(bytes32) {
+      return "Hello World";
+   }
+
    // this function allows funds to be sent to the smart contract
-   function addFunds() external payable {
+   function addFunds() override external payable {
       // create mapping of donator's address
       address donator = msg.sender;
       if (!donators[donator]) {
