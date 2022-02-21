@@ -40,7 +40,7 @@ contract Faucet is Owned, Logger, IFaucet {
    }
 
    // this function withdraws from the smart contract with a limit of .1 eth per transaction
-   function withdraw(uint withdrawAmount) external limitWithdraw(withdrawAmount) {
+   function withdraw(uint withdrawAmount) external override limitWithdraw(withdrawAmount) {
          payable(msg.sender).transfer(withdrawAmount);
    }
 
